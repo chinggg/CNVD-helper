@@ -15,13 +15,13 @@ def setup_folder(dst: str) -> str:
     return docpath
 
 
-def read_conf(confname: str, chinese=True) -> dict:
+def read_conf(confname: str, only_tuple=True) -> dict:
     sys.path.append('conf')
     confmod = __import__(confname)
     keynames = [item for item in dir(confmod) if not item.startswith("__")]
     dic = {key: getattr(confmod, key) for key in keynames}
-    if chinese:
-        dic = {v[0]: v[1] for v in dic.values()}
+    if only_tuple:
+        dic = {v[0]: v[1] for v in dic.values() if isinstance(v, tuple)}
     return dic
 
 
