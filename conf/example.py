@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+from datetime import datetime
+
 # CVE https://cveform.mitre.org/
 
 # [...document.getElementById('DropDownListVulnerabilityType').children].map(x => x.innerText).slice(1)
@@ -42,7 +45,7 @@ vul_desc = '漏洞简介', """
 institution = '提交机构', '某研究所'
 author = '提交人员', '张三，李四'
 contact = '联系方式', '[邮箱] [电话]'
-date = '提交日期', '2022 年 1 月 1 日'
+date = '提交日期', datetime.now().strftime('%Y 年 %-m 月 %-d 日')
 
 # 漏洞验证
 vul_loc = '漏洞定位', '[漏洞定位]'
