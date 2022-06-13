@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 from datetime import datetime
 
+# 提交人员基本信息
+from personal import institution, author, contact
+date = '提交日期', datetime.now().strftime('%Y 年 %-m 月 %-d 日')
+
 # CVE https://cveform.mitre.org/
+
+email = 'TextBoxEmail', contact[1]
 
 # [...document.getElementById('DropDownListVulnerabilityType').children].map(x => x.innerText).slice(1)
 __vulntypes = ['Buffer Overflow', 'Cross Site Request Forgery (CSRF)', 'Cross Site Scripting (XSS)', 'Directory Traversal', 'Incorrect Access Control',
@@ -40,12 +46,6 @@ vul_desc = '漏洞简介', """
 [漏洞描述]
 [影响描述]
 [实体下载地址]"""
-
-# 提交人员基本信息
-institution = '提交机构', '某研究所'
-author = '提交人员', '张三，李四'
-contact = '联系方式', '[邮箱] [电话]'
-date = '提交日期', datetime.now().strftime('%Y 年 %-m 月 %-d 日')
 
 # 漏洞验证
 vul_loc = '漏洞定位', '[漏洞定位]'
