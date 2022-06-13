@@ -16,6 +16,8 @@ impact = 'CheckBoxListImpact', __impacts[4]  # TODO: click multiple checkboxs
 affected_components = 'TextBoxAffectedComponents', 'affected source code file, affected function, affected executable, etc.'
 attack_vectors = 'TextBoxAttackVectors', '''What are the methods of exploitation?
 Example: to exploit vulnerability, someone must open a crafted JPEG file.'''
+
+# http://cveproject.github.io/docs/content/key-details-phrasing.pdf
 desc = 'TextBoxOwnDescription', f'''{vulntype[1]} in {affected_components[1]} in \
 {vendor[1]} {product[1]} {versions[1]} allows attacker to {impact[1]} via {attack_vectors[1]}.'''
 discoverer = 'TextBoxDiscoverer', 'individual(s) or organization(s)'

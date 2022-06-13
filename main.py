@@ -56,7 +56,7 @@ def gen_cve_js(conf: dict[str, str], savedir=None) -> str:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='CNVD helper')
     parser.add_argument('--conf', '-c', type=str,
-                        default='example', help='配置文件路径')
+                        default='example', help='配置文件名称')
     args = parser.parse_args()
     conf = read_conf(args.conf)
     docpath = setup_folder(conf['漏洞名称'])
