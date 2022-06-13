@@ -29,7 +29,7 @@ Example: to exploit vulnerability, someone must open a crafted JPEG file.'''
 # http://cveproject.github.io/docs/content/key-details-phrasing.pdf
 desc = 'TextBoxOwnDescription', f'''{vulntype[1]} in {affected_components[1]} in \
 {vendor[1]} {product[1]} {versions[1]} allows attacker to {impact[1]} via {attack_vectors[1]}.'''
-discoverer = 'TextBoxDiscoverer', 'individual(s) or organization(s)'
+discoverer = 'TextBoxDiscoverer', author[1]
 references = 'TextBoxReferences', '''Please include one reference/URL per line including protocol and domain name, e.g.,
 www.link.com
 https://link.org
@@ -38,11 +38,10 @@ https://link.org
 
 # 漏洞基本信息
 vul_name = '漏洞名称', 'APP存在XX漏洞'  # http://www.cnnvd.org.cn/web/wz/bzxqById.tag?id=4&mkid=4
-affected_entity = '受影响实体版本号', f'{product} {versions}'
+affected_entity = '受影响实体版本号', f'{product[1]} {versions[1]}'
 vul_type = '漏洞类型', '缓冲区错误（CWE-119）'  # http://www.cnnvd.org.cn/web/wz/bzxqById.tag?id=3&mkid=3
 vul_level = '危害等级', '中危'  #  http://www.cnnvd.org.cn/web/wz/bzxqById.tag?id=2&mkid=2
-vul_desc = '漏洞简介', """
-[实体描述]
+vul_desc = '漏洞简介', """[实体描述]
 [漏洞描述]
 [影响描述]
 [实体下载地址]"""
