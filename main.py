@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import os
 import shutil
 import sys
 from docx import Document
@@ -24,14 +25,32 @@ def read_conf(confname: str, chinese=True) -> dict:
     return dic
 
 
-def modify_doc(docpath: str, conf: dict) -> None:
+def modify_doc(docpath: str, conf: dict[str, str]) -> dict[str, str]:
     doc = Document(docpath)
     table = doc.tables[0]
     for row in table.rows:
         key = row.cells[0].text
         if key in conf:
-            row.cells[1].text = conf[key]
+            row.cells[1].text = conf.pop(key)
     doc.save(docpath)
+    return conf
+
+
+def gen_cve_js(conf: dict[str, str], savedir=None) -> str:
+    cmds = []
+    VALUE_BY_ID = 'document.querySelector("[id*={key}]").value = {value};'
+    CHECK_BY_VALUE = 'document.querySelector("[type=checkbox][value={value}]").click();'
+    for key, value in conf.items():
+        if key.startswith('TextBox') or key.startswith('DropDownList'):
+            cmds.append(VALUE_BY_ID.format(key=key, value=repr(value)))
+        elif key.startswith('CheckBoxList'):
+            cmds.append(CHECK_BY_VALUE.format(value=repr(value)))
+    cmdstr = '\n'.join(cmds)
+    if savedir:
+        savepath = os.path.join(savedir, 'cve.js')
+        with open(savepath, 'w') as f:
+            f.write(cmdstr)
+    return cmdstr
 
 
 if __name__ == '__main__':
@@ -41,4 +60,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     conf = read_conf(args.conf)
     docpath = setup_folder(conf['漏洞名称'])
-    modify_doc(docpath, conf)
+    cve_conf = modify_doc(docpath, conf)
+    jscode = gen_cve_js(cve_conf, savedir=os.path.dirname(docpath))
+    print(jscode)
