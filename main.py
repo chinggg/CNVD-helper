@@ -6,12 +6,15 @@ import sys
 from docx import Document
 
 
-def setup_folder(dst: str) -> str:
+def setup_folder(conf: dict[str, str]) -> str:
+    dst = conf['漏洞名称']
     src = 'template/generic/'
     shutil.copytree(src, dst)
     docpath = dst + f'/{dst}.docx'
     shutil.move(dst + '/name.docx', docpath)
     shutil.move(dst + '/attachment.zip', dst + f'/{dst}.zip')
+    with open(dst + '/email.txt', 'w') as f:
+        f.write(conf['联系方式'])
     return docpath
 
 
@@ -25,7 +28,7 @@ def read_conf(confname: str, only_tuple=True) -> dict:
     return dic
 
 
-def modify_doc(docpath: str, conf: dict[str, str]) -> dict[str, str]:
+def modify_doc(docpath: str, conf: dict[str, str]) -> str:
     doc = Document(docpath)
     table = doc.tables[0]
     for row in table.rows:
@@ -33,7 +36,7 @@ def modify_doc(docpath: str, conf: dict[str, str]) -> dict[str, str]:
         if key in conf:
             row.cells[1].text = conf.pop(key)
     doc.save(docpath)
-    return conf
+    return os.path.dirname(docpath)
 
 
 def gen_cve_js(conf: dict[str, str], savedir=None) -> str:
@@ -53,13 +56,29 @@ def gen_cve_js(conf: dict[str, str], savedir=None) -> str:
     return cmdstr
 
 
+def gen_cnvd_js(conf: dict[str, str], savedir=None) -> str:
+    cmds = []
+    VALUE_BY_ID = 'document.getElementById("{key}").value = {value};'
+    for key, value in conf.items():
+        if key.endswith('1'):
+            cmds.append(VALUE_BY_ID.format(key=key, value=repr(value)))
+    cmdstr = '\n'.join(cmds)
+    if savedir:
+        savepath = os.path.join(savedir, 'cnvd.js')
+        with open(savepath, 'w') as f:
+            f.write(cmdstr)
+    return cmdstr
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='CNVD helper')
     parser.add_argument('--conf', '-c', type=str,
                         default='example', help='配置文件名称')
     args = parser.parse_args()
     conf = read_conf(args.conf)
-    docpath = setup_folder(conf['漏洞名称'])
-    cve_conf = modify_doc(docpath, conf)
-    jscode = gen_cve_js(cve_conf, savedir=os.path.dirname(docpath))
-    print(jscode)
+    docpath = setup_folder(conf)
+    folder = modify_doc(docpath, conf)
+    cve_js = gen_cve_js(conf, savedir=folder)
+    print(cve_js)
+    cnvd_js = gen_cnvd_js(conf, savedir=folder)
+    print(cnvd_js)

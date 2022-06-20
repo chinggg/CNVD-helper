@@ -5,7 +5,8 @@ from datetime import datetime
 from personal import institution, author, contact
 date = '提交日期', datetime.now().strftime('%Y 年 %-m 月 %-d 日')
 
-# CVE https://cveform.mitre.org/
+
+# CVE 网页表单 https://cveform.mitre.org
 
 email = 'TextBoxEmail', contact[1]
 
@@ -36,6 +37,8 @@ https://link.org
 '''
 
 
+# CNNVD 漏洞提交表
+
 # 漏洞基本信息
 vul_name = '漏洞名称', 'APP存在XX漏洞'  # http://www.cnnvd.org.cn/web/wz/bzxqById.tag?id=4&mkid=4
 affected_entity = '受影响实体版本号', f'{product[1]} {versions[1]}'
@@ -50,3 +53,19 @@ vul_desc = '漏洞简介', """[实体描述]
 vul_loc = '漏洞定位', '[漏洞定位]'
 vul_trigger = '漏洞触发条件', '[触发条件]'
 vul_verify = '漏洞验证过程', '[漏洞验证过程应该包括完整的复现步骤及结果]'
+
+
+# CNVD 网页表单 https://www.cnvd.org.cn/flaw/create
+
+# 厂商信息在网页中点击选择搜索，不自动填充
+
+# [...document.getElementById('titlel1').children].map(x => x.value)
+__flawtypes = ['sqlInjectionVulnerability', 'xmlEntityInjection', 'xssVulnerability', 'ssrfVulnerability', 'weakPassword',
+'fileUploadVulnerability', 'informationLeakage', 'unauthorizedAccess', 'logicalDefects', 'fileContains',
+'remoteCommandExecution', 'directoryTraversal', 'downloadAnyFiles', 'anyFileRead', 'denialOfService',
+'binaryVulnerability', 'deviceVulnerability', 'serviceParameterInjection', 'clickHijack', 'other']
+cnvd_name = 'title1', vul_name[1].split('存在')[0]
+cnvd_type = 'titlel1', __flawtypes[19]
+cnvd_desc = 'description1', vul_desc[1]
+tempway = 'tempWay1', '[临时解决方案]'
+formalway = 'formalWay11', '填充厂商的补丁修复情况，示例：【目前厂商已经发布了升级补丁以修复此安全问题，补丁获取链接：http://或https://开头】'
