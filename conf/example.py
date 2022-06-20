@@ -40,7 +40,7 @@ https://link.org
 # CNNVD 漏洞提交表
 
 # 漏洞基本信息
-vul_name = '漏洞名称', 'APP存在XX漏洞'  # http://www.cnnvd.org.cn/web/wz/bzxqById.tag?id=4&mkid=4
+vul_name = '漏洞名称', f'{product[1]}存在XX漏洞'  # http://www.cnnvd.org.cn/web/wz/bzxqById.tag?id=4&mkid=4
 affected_entity = '受影响实体版本号', f'{product[1]} {versions[1]}'
 vul_type = '漏洞类型', '缓冲区错误（CWE-119）'  # http://www.cnnvd.org.cn/web/wz/bzxqById.tag?id=3&mkid=3
 vul_level = '危害等级', '中危'  #  http://www.cnnvd.org.cn/web/wz/bzxqById.tag?id=2&mkid=2
